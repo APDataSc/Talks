@@ -1,0 +1,387 @@
+
+---
+title: "Causal inference and sample size"
+author: 'Hugo Andrés Gutiérrez Rojas'
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output:
+  ioslides_presentation:
+    incremental: yes
+    widescreen: yes
+subtitle: A design-based approach using the [`samplesize4surveys`](http://cran.r-project.org/web/packages/samplesize4surveys)
+  **R** package
+---
+
+# Statistical Approaches to Causality {.build}
+<div class="white">
+Randomization and experimental designs are the default tool when it comes to causal inference. However for ethical (among others) reasons, randomization is not always possible. Observational studies becomes the proper way for facing this drawback
+</div>
+
+## Experimental designs vs. Observational studies {.flexbox .vcenter .build}
+
+- In a <span style="color:red"> randomized experiment</span> researchers use some randomization technique in order to assign treatment to experimental individuals and observe the effect on the treated. For example: randomly select schools in order to provide them with computers.
+
+- In an <span style="color:blue"> observational study</span> researchers just observe individuals. Researchers do not interfere in the assignation process because it is beyond their control. For example: observe poor people that are enrolled in some kind of income subsidiary program.
+
+**It is not always possible to randomize, but always randomize if possible!**
+
+## Sampling surveys in observational studies {.flexbox .vcenter .build}
+
+In public policy evaluation it is very common to evaluate programs designed for a massive population. Decision makers implement programs that affect a lot of people. In this set-up we always want to know if the program intervention had effect over the population of interest. 
+
+- The only way to achieve this goal is by selecting a random sample of the population of interest. 
+- Otherwise, it would be impossible to assess the effect of the program, because of the expensiveness of a comprehensive measuring process (or census) over the whole population of interest. 
+
+If you are able to spend usually millions of dollars, when you plan a sampling design, you also want to measure other variables of interest that are related to characterization of people within the program. That requires some level of statistical precision!
+
+## What do you want to do with that sample? {.flexbox .vcenter .build}
+
+- You want to draw a sample in order to test whether there is or there is not effect over the population regarding your intervention? 
+- You want to quantify the very value of that effect?
+
+At the end you should **STOP** and **DECIDE** if your research should be focused on estimation or hypothesis testing. Stop
+
+<div class="red2">
+These approaches yield to very different sample sizes! 
+</div>
+
+
+# Sampling and design-effects {.build}
+<div class="white">
+In general, when drawing samples in social research, it is usual to use complex sampling schemes, such as stratification, clustering or unequal probability designs.
+</div>
+
+## What is the aim of a probabilistic sample? {.flexbox .vcenter .build}
+
+We select a random sample in order to draw conclusions about the entire population .
+
+1. Samples *per se* are not useful by their own.
+2. Different sampling schemes may be used to draw a sample.
+3. In real life, you can select one (and only one) sample. 
+4. That sample should be representative of the population of interest.
+
+## What is a representative sample? {.flexbox .vcenter .build}
+
+Samples do not necessarily maintain the distribution of the population. A representative sample is the one that, when expanded, reproduces a pseudo-population that is very similar (in distribution) to the population of interest. 
+
+- It is a subset of the whole population.
+- It is drawn having into account a probabilistic mechanism.
+- It is selected from a set (of subsets) called **support**. 
+- All of the samples in the support has a (non-null) chance of being selected. 
+- All of the units in the population have a (non-null) chance of being included in the sample.
+- It may contain repeated units.
+
+## Representativeness (Tillé, 2006)  {.flexbox .vcenter .build}
+
+Some people say that *a good sample must resemble the population of interest in such a way that some categories appear with the same proportions in the sample as in the population* 
+
+Suppose that the aim is to estimate the production of iron in a country, and we know that the iron is produced by two huge steel companies and by several hundreds of small craft-industries. Does the better design consist in selecting each unit with the same probability?
+
+First, one will inquire about the production of the two biggest companies. Next, one will select a sample of small companies according to an appropriate sampling design.
+
+<div class="red2">
+**The sample must not be a reduced model of the population; it is only a tool used to provide estimates.**
+</div>
+
+***
+<center><img src="popcorn2.jpg" height="600px" /></center>
+
+## Simple random sampling {.flexbox .vcenter .build}
+
+This is the most simple sampling design. It assumes that the variable of interest is uniformly distributed along the population.
+
+- Every possible sample in the support has the same selection probability.
+- Every unit in the population has the same inclusion probability. 
+- It may be with or without replacement.
+- When the sample size is large, the uncertainty is small.
+
+The vast majority of sample size calculators over the internet are based on this sampling scheme! However, this design is rarely used in practice. 
+
+<div class="red2">
+This is a contradiction!!! -><-
+</div>
+
+## PPS sampling {.flexbox .vcenter .build}
+
+This design uses (continuous) auxiliary information $x$ to select a sample. The greater the value of $x$, the greater the chance of being selected. This variable is commonly called a **measure of size** (MOS).
+
+- It is very useful in firsts stages of social research.
+- A classic measure of size is the population of municipalities. 
+- There should be a strong directly relation between the MOS and the variable of interest.
+- If the MOS is not linearly correlated with the variable of interest, then it is not a good idea to use this design. 
+- The selection and inclusion probabilities are unequal. 
+
+## Stratified sampling {.flexbox .vcenter .build}
+
+This design supposes that you know *a priori* the membership of every unit in the population to a set of subgroups (or strata). 
+
+- The strata defines a partition over the population of interest.
+- Inside each stratum a sampling design is applied (not necessarily the same).
+- This scheme yields to independence between strata. 
+- At the end, one can infer over the whole population by means of aggregations of strata.
+- The selection and inclusion probabilities could be unequal.
+
+## Cluster & multistage sampling {.flexbox .vcenter .build}
+
+When the information comes directly from households or people, it is frequent to lack of a proper sampling frame in order to directly select a sample. This way:
+
+- The population is partitioned into areas or municipalities.
+- Some municipalities are selected by means of (any) sampling design.
+- Inside the selected municipalities, another sampling plan is defined to select subareas and so on until we reach households.
+- At the end, households are selected by means of several sampling plans at distinct levels.
+- In different stages of the sampling plan, one may define strata, or MOS in order to select samples. 
+
+## Complex samples and statistical inference {.flexbox .vcenter .build}
+
+At the end, all of the foundations of statistical inference are based on a sequence of random variables that are:
+
+1. Identically distributed, and 
+2. Independent.
+
+However, this assumptions are only possible if the sampling design is simple random with replacement. This way, proper inference must have into account the *representativeness principle* (or the golden rule of survey sampling). 
+
+# Impact of a public policy intervention {.build}
+
+<div class="white">
+Impact is defined as the change in the well-being of individuals that can be attributed to a particular project, program, or policy. 
+<div>
+
+## Counterfactuals {.flexbox .vcenter .build}
+
+In order to evaluate if a policy had effect (or impact) on the population of interest, you should answer the following question:
+
+<div class="blue">
+**What would have happened in the absence of the policy?**
+</div>
+
+## Counterfactuals {.flexbox .vcenter .build}
+
+To answer this important question, you have to emulate the counter-factual reality of the *sample* of people who were exposed to the treatment! For unit $k$, this means to estimate:
+
+$$\beta_k = E(Y_k | P = 1) - E(Y_k | P = 0)$$
+
+This way, the causal impact $\beta$ of a program $P$ on an outcome $Y$ is the difference between the expected outcome exposed to the program $E(Y | P = 1)$ and the expected outcome without the program $E(Y | P = 0)$.
+
+<div class="green2">
+However, you actually only observe either $(Y_k | P = 1)$ or $(Y_k | P = 0)$!
+</div>
+
+## External validity {.flexbox .vcenter .build}
+
+This is a property that ensures that findings can be generalized to a the population of eligible units. In other words, the expanded sample must be representative of the population of eligible units. 
+
+- External validity is only achievable by means of survey sampling.
+- As interventions are spread out along the population, it is usual to use complex sampling schemes in order to ensure the validity of the inferences. 
+- When using nonrandom samples, the estimated impacts cannot be generalized to the whole population. 
+
+If the sample is selected randomly, but the treatment is not assigned at random, then the expanded sample could be representative but the comparison group may be not suitable (valid).
+
+## Internal validity {.flexbox .vcenter .build}
+
+This property ensures that the impact is well estimated because the selected sample focuses in those units that properly represent the counter-factual.
+
+- Internal validity is ensured by means of random assignation of the treatment.
+- Most times, treatment is not assigned at random. 
+- One must use some pairing methods (over the selected sample) in order to ensure valid comparisons. 
+- That means that you must have into account the possible lost of units when matching. 
+- This way, an oversampling is always a must do.
+
+## Parameters of interest: randomized assignment (no covariates) {.flexbox .vcenter .build}
+
+The impact of a program in the *finite popuation* $U$ is *computed* by means of the average treatment effect (ATE), defined as the difference of averages in the treated population $U_T$ and the control population $U_C$:
+
+$\beta = \frac{1}{N_T}\sum_{k \in U_T} Y_k(1) - \frac{1}{N_C}\sum_{k \in U_C} Y_k(0)$
+
+This parameter can be written as the regression coefficient in the following model
+
+$Y_k = \alpha + \beta T_k + E_k$
+
+Where $k \in U$, $T_k = 1$ if unit $k$ receives the treatment; otherwise, $T_k = 0$.
+
+## Sampling estimators: randomized assignment (no covariates) {.flexbox .vcenter .build}
+
+The impact of a program is unbiasedly *estimated* by means of the following expression:
+
+$\hat{\beta} = \frac{\sum_{k \in S_T} \frac{Y_k(1)}{\pi_k}}{\sum_{k \in S_T} \frac{1}{\pi_k}} - \frac{\sum_{k \in S_C} \frac{Y_k(0)}{\pi_k}}{\sum_{k \in S_C} \frac{1}{\pi_k}} = \hat{\bar{Y}}_T - \hat{\bar{Y}}_C$
+
+This estimator can be viewed as the sampling estimator $\hat{\beta}$ of the regression coefficient in:
+
+$Y_k = \hat{\alpha} + \hat{\beta} T_k + e_k; \ \ \ \ \ \ \ \ k \in S$
+
+## Parameters of interest: randomized assignment (including covariates) {.flexbox .vcenter .build}
+
+In order to include covariates when computing impact, we must specify the following model:
+
+$Y_k = \alpha + \beta T_k + \boldsymbol{\gamma}' \mathbf{X}_k + E_k$
+
+If we define $\boldsymbol{\theta} = (\alpha, \beta, \boldsymbol{\gamma})'$, and $\mathbf{Z}= (1, \mathbf{T}, \mathbf{X})$, then we have that:
+
+$\boldsymbol{\theta} = (\mathbf{Z}'\mathbf{Z})^{-1}\mathbf{Z}'Y$
+
+The impact of a program in the *finite popuation*, conditional to covariates $\mathbf{X}$, is *computed* by means of the second entry of the vector of regression coefficients $\boldsymbol{\theta}$.
+
+## Sampling estimators: randomized assignment (including covariates) {.flexbox .vcenter .build}
+
+The impact of a program is *estimated* by means of the second entry of the following vector of estimated regression coefficients
+
+$\hat{\boldsymbol{\theta}} = \left(\sum_{k \in S} \frac{\mathbf{Z}_k \mathbf{Z}_k'}{\pi_k}\right)^{-1}\left(\sum_{k \in S} \frac{\mathbf{Z}_k Y_k}{\pi_k}\right)$
+
+Although this estimator is not unbiased for the ATE, it is consistent (large-sample unbiasedness)
+
+## Parameters of interest: regular assignment {.flexbox .vcenter .build}
+
+Regular assignment differs from randomization because units receive the treatment under a not known probabilistic scheme. This way, conditional to covariates, the probability of receiving the treatment (propensity score) is unknown. 
+
+To face this issue, it is usual to *match* the set of units receiving the treatment, conditional to covariates, with those units not receiving the treatment. This way, for internal validity sake, the population may be reduced to a matched subset of smaller size.
+
+Under this setup, the regression model that accounts for the ATE is
+
+$Y_k = \alpha + \beta T_k + E_k$
+
+For $k \in U_M$, where $U_M$ is the matched subset. 
+
+## Sampling estimators: regular assignment (including covariates) {.flexbox .vcenter .build}
+
+The problem of the matched sample can be viewed as a problem of domains in survey sampling. Domains are defined as a partition of the whole population that are known after interviewing the units in the sample. 
+
+The impact of a program is *estimated* by means of the second entry of the following vector of estimated regression coefficients
+
+$\hat{\boldsymbol{\theta}} = \left(\sum_{k \in S_M} \frac{\mathbf{Z}_k \mathbf{Z}_k'}{\pi_k}\right)^{-1}\left(\sum_{k \in S_M} \frac{\mathbf{Z}_k Y_k}{\pi_k}\right)$
+
+## Variance {.flexbox .vcenter .build}
+
+The variance of sampling estimators of the ATE must have into account the complex sampling design. For example, if stratified sampling is used, the linearized estimated variance of $\hat{\beta}$ is 
+
+$Var(\hat{\beta}) = \sum_{k \in S_T}\sum_{l \in S_T} \frac{\Delta_{kl}}{\pi_{kl}} \frac{u_k}{\pi_k} \frac{u_l(1)}{\pi_l(1)} + \sum_{k \in S_C}\sum_{l \in S_C} \frac{\Delta_{kl}}{\pi_{kl}} \frac{u_k(0)}{\pi_k} \frac{u_l(0)}{\pi_l}$
+
+Where $\Delta_{kl} = \pi_{kl} - \pi_{k}\pi_{l}$, $\pi_{kl} = E(k \in S, l \in S)$, $u_k(1) = Y_k(1) - \hat{\bar{Y}}_T$, and $u_k(0) = Y_k(0) - \hat{\bar{Y}}_C$.
+
+However, under other sampling plans, this variance may be more complex and may include some co-variance terms. 
+
+# The margin of error approach to sample size {.build}
+<div class="white">
+The margin of error is the *holy grial* of researchers. It is frequently used in electoral studies, as well as in surveys that induces official statistics. This approach lives in the world of estimation. 
+<div>
+
+## The design effect {.flexbox .vcenter .build}
+
+In order to take into account the sampling scheme, the variance (a tool for computing confidence intervals along with test hypothesis) of any estimator $\hat{T}$ under a complex design $p$ may be written as:
+
+$DEFF = \frac{Var_p(\hat{T})}{Var_{SI}(\hat{T})}$.
+
+This way, the variance of the estimator under the complex sampling can be written as
+
+$Var_p(\hat{T}) = DEFF * Var_{SI}(\hat{T})$
+
+## Margin of error {.flexbox .vcenter .build}
+
+When defining confidence intervals, we have into account the margin of error as a function of the variance of an estimator $\hat{T}$:
+
+$ME = Z_{1- \alpha/2} \sqrt{Var(\hat{T})}$
+
+Sometimes (for continuous type variables) it is useful to define the relative margin of error:
+
+$RME = Z_{1- \alpha/2} \frac{\sqrt{Var(\hat{T})}}{\hat{T}}$
+
+Note that the coefficient of variation of $\hat{T}$ is given by
+
+$CV = \frac{\sqrt{Var(\hat{T})}}{\hat{T}}$
+
+## Confidence intervals for proportions {.flexbox .vcenter .build}
+
+Assuming a population of size $N$, and a selected sample of size $n$, the variance for the difference of proportions is defined as:
+
+$Var(\hat{P}_1-\hat{P}_2)=\frac{DEFF}{n}\left(1-\frac{n}{N}\right)(P_1Q_1+P_2Q_2)$
+
+This way, a 95\% confidence interval for the difference of two proportions is given by
+
+$IC(95\%)_{P_1-P_2}=(\hat{P}_1-\hat{P}_2) \pm Z_{1-\alpha/2} \sqrt{\frac{DEFF}{n}\left(1-\frac{n}{N}\right)(P_1Q_1+P_2Q_2)}$
+
+Then the margin of error is
+
+$e< Z_{1-\alpha/2}\sqrt{\frac{DEFF}{n}\left(1-\frac{n}{N}\right)(P_1Q_1+P_2Q_2)}$
+
+## The sample size {.flexbox .vcenter .build}
+
+$n> \dfrac{DEFF(P_1Q_1+P_2Q_2)}{\dfrac{e^2}{Z_{1-\alpha/2}^2}+\dfrac{DEFF(P_1Q_1+P_2Q_2)}{N}}$
+
+
+## Computing sample sizes {.flexbox .vcenter .build}
+
+By using the `ss4dp` it is possible to computed the minimum sample size required in order to ensure the desired precision
+
+```{r, message=FALSE}
+library(samplesize4surveys)
+ss4dp(N=100000, P1=0.5, P2=0.5, DEFF=1.2, conf=0.95, me=0.03)[2]
+```
+
+## Computing sample sizes {.flexbox .vcenter .build}
+
+
+```{r, message=FALSE}
+library(samplesize4surveys)
+ss4dp(N=100000, P1=0.5, P2=0.55, DEFF=1.2, conf=0.95, cve=0.15, me=0.03, plot=TRUE)
+```
+
+# The power approach to sample size {.build} 
+<div class="white">
+Power is the default approach when it comes to *detect* effect (or impact). This approach lives in the world of hypothesis testing. 
+<div>
+
+## Hypothesis testing {.flexbox .vcenter .build}
+
+Assume that impact is measured as the difference of a proportion on the treated and a proportion on the controls.
+
+$H_o: P_1-P_2=0 \ \ \ \ \ vs.  \ \ \ \ \ H_a: P_1 -P_2 =D > 0$
+
+Where $D$ is sometimes called the effect (and it is defined by the expert of the policy). Based on the normality of sampling estimators, we reject the null hypothesis based on the following decision rule
+
+$\frac{\hat{P}_1-\hat{P}_2}{\sqrt{\frac{DEFF}{n}\left(1-\frac{n}{N}\right)(P_1Q_1+P_2Q_2)}} > Z_{1-\alpha}$
+
+## Power {.flexbox .vcenter .build}
+
+Power is defined as the probability of rejecting the null hypothesis conditional to the alternate.
+
+$\beta = Pr\left(\dfrac{\hat{P}_1-\hat{P}_2}{\sqrt{\frac{DEFF}{n}\left(1-\frac{n}{N}\right)(P_1Q_1+P_2Q_2)}} 
+> Z_{1-\alpha} \left. | \right. P_1 -P_2 =D \right)$
+
+After some algebra, we find that 
+
+$\beta = 1-\Phi\left(Z_{1-\alpha} - \dfrac{D}{\sqrt{\frac{DEFF}{n}\left(1-\frac{n}{N}\right)(P_1Q_1+P_2Q_2)}} \right)$
+
+## The sample size {.flexbox .vcenter .build}
+
+$n \geq \dfrac{DEFF(P_1Q_1+P_2Q_2)}{\dfrac{D^2}{(Z_{1-\alpha}+Z_{\beta})^2}+\dfrac{DEFF(P_1Q_1+P_2Q_2)}{N}}$
+
+## Computing sample sizes {.flexbox .vcenter .build}
+
+By using the `ss4dpH` it is possible to computed the minimum sample size required in order to ensure the desired precision
+
+```{r, message=FALSE}
+library(samplesize4surveys)
+ss4dpH(N = 100000, P1 = 0.5, P2 = 0.5, D=0.05, conf = 0.95, power = 0.8, DEFF = 1.2)
+ss4dpH(N = 100000, P1 = 0.5, P2 = 0.5, D=0.03, conf = 0.95, power = 0.9, DEFF = 1.2)
+```
+
+## Computing sample sizes {.flexbox .vcenter .build}
+
+```{r, message=FALSE}
+library(samplesize4surveys)
+ss4dpH(N = 100000, P1 = 0.5, P2 = 0.5, D=0.05, conf = 0.95, power = 0.8, DEFF = 1.2, plot = TRUE)
+```
+
+# The `samplesize4surveys` **R** package {.build}
+
+<div class="white">
+It is available at the Comprehensive R Archive Network [CRAN](http://cran.r-project.org/web/packages/samplesize4surveys). It has more than 20 functions that accounts for proper sample sizes for design-based evaluation of public policy. 
+<div>
+
+# Thank you! {.build}
+
+<div class="white">
+Hugo Andrés Gutiérrez Rojas 
+hugogutierrez@usantotomas.edu.co
+Twitter: @psirusteam
+<div>
+
+
+
