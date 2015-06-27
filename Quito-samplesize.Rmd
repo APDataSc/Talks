@@ -82,9 +82,6 @@ First, one will inquire about the production of the two biggest companies. Next,
 **The sample must not be a reduced model of the population; it is only a tool used to provide estimates.**
 </div>
 
-***
-<center><img src="popcorn2.jpg" height="600px" /></center>
-
 ## Simple random sampling {.flexbox .vcenter .build}
 
 This is the most simple sampling design. It assumes that the variable of interest is uniformly distributed along the population.
