@@ -28,7 +28,7 @@ Randomization and experimental designs are the default tool when it comes to cau
 
 In public policy evaluation it is very common to evaluate programs designed for a massive population. Decision makers implement programs that affect a lot of people. In this set-up we always want to know if the program intervention had effect over the population of interest. 
 
-- The only way to achieve this goal is by selecting a random sample of the population of interest. 
+- The only way to achieve this goal is by selecting a **random** sample of the population of interest. 
 - Otherwise, it would be impossible to assess the effect of the program, because of the expensiveness of a comprehensive measuring process (or census) over the whole population of interest. 
 
 If you are able to spend usually millions of dollars, when you plan a sampling design, you also want to measure other variables of interest that are related to characterization of people within the program. That requires some level of statistical precision!
